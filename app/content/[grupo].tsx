@@ -2,23 +2,26 @@ import { ThemedView } from '@/components/ThemedView';
 import { Stack, useLocalSearchParams } from 'expo-router';
 import React from 'react';
 import { Dimensions, Image, ScrollView, StyleSheet, Text } from 'react-native';
+import { WebView } from 'react-native-webview';
 
 const { width: SCREEN_WIDTH } = Dimensions.get('window');
+const VIDEO_HEIGHT = SCREEN_WIDTH * (9 / 16); // Estándar 16:9 para videos de YouTube
 
-// PON el ratio correcto de cada imagen, si no lo sabes usa 1.41 para A4, 1.5 o 1.6 para posters altos.
-const infografiasNinos = [
-  { src: require('@/assets/images/infografia-ninos/ninos1.png'), ratio: 1.41 },
-  { src: require('@/assets/images/infografia-ninos/ninos2.png'), ratio: 1.41 },
-  { src: require('@/assets/images/infografia-ninos/ninos3.png'), ratio: 1.41 },
-  { src: require('@/assets/images/infografia-ninos/ninos4.png'), ratio: 1.41 },
-  { src: require('@/assets/images/infografia-ninos/ninos5.png'), ratio: 1.41 },
+// Links para grupo niños
+const videosNinos = [
+  'https://www.youtube.com/embed/rHDTJQKW2y8',
+  'https://www.youtube.com/embed/I8AhGbzzego',
+  'https://www.youtube.com/embed/zbHCWGo4DZ8',
+  'https://www.youtube.com/embed/i_92-NovRT0',
 ];
 
+// Imágenes para adolescentes
 const infografiasJovenes = [
   { src: require('@/assets/images/jovenes/jovenes1.png'), ratio: 1.41 },
   { src: require('@/assets/images/jovenes/jovenes2.png'), ratio: 1.41 },
 ];
 
+// Imágenes para adultos mayores
 const infografiasAdultos = [
   { src: require('@/assets/images/adultos/adultos1.png'), ratio: 1.64 },
 ];
@@ -26,10 +29,65 @@ const infografiasAdultos = [
 export default function ContentDetail() {
   const { grupo } = useLocalSearchParams<{ grupo: string }>();
 
-  let infografias: { src: any; ratio: number }[] = [];
-  if (grupo === 'ninos') infografias = infografiasNinos;
-  else if (grupo === 'adolescentes') infografias = infografiasJovenes;
-  else if (grupo === 'adultosMayores') infografias = infografiasAdultos;
+  let content: React.ReactNode = null;
+
+  if (grupo === 'ninos') {
+    content = (
+      <>
+        {videosNinos.map((url, idx) => (
+          <WebView
+            key={idx}
+            source={{ uri: url }}
+            style={styles.video}
+            javaScriptEnabled
+            allowsFullscreenVideo
+          />
+        ))}
+      </>
+    );
+  } else if (grupo === 'adolescentes') {
+    content = (
+      <>
+        {infografiasJovenes.map((img, idx) => (
+          <Image
+            key={idx}
+            source={img.src}
+            style={{
+              width: SCREEN_WIDTH,
+              height: SCREEN_WIDTH * img.ratio,
+              alignSelf: 'center',
+              backgroundColor: '#fff',
+            }}
+            resizeMode="contain"
+          />
+        ))}
+      </>
+    );
+  } else if (grupo === 'adultosMayores') {
+    content = (
+      <>
+        {infografiasAdultos.map((img, idx) => (
+          <Image
+            key={idx}
+            source={img.src}
+            style={{
+              width: SCREEN_WIDTH,
+              height: SCREEN_WIDTH * img.ratio,
+              alignSelf: 'center',
+              backgroundColor: '#fff',
+            }}
+            resizeMode="contain"
+          />
+        ))}
+      </>
+    );
+  } else {
+    content = (
+      <Text style={{ textAlign: 'center', marginTop: 40, color: '#222' }}>
+        No hay contenido disponible para este grupo.
+      </Text>
+    );
+  }
 
   return (
     <ThemedView style={styles.container}>
@@ -39,25 +97,7 @@ export default function ContentDetail() {
         contentContainerStyle={{ flexGrow: 1, padding: 0, margin: 0 }}
         showsVerticalScrollIndicator={false}
       >
-        {infografias.length > 0 ? (
-          infografias.map((img, idx) => (
-            <Image
-              key={idx}
-              source={img.src}
-              style={{
-                width: SCREEN_WIDTH,
-                height: SCREEN_WIDTH * img.ratio, // ¡Aquí está la magia!
-                alignSelf: 'center',
-                backgroundColor: '#fff',
-              }}
-              resizeMode="contain"
-            />
-          ))
-        ) : (
-          <Text style={{ textAlign: 'center', marginTop: 40, color: '#fff' }}>
-            No hay infografías disponibles para este grupo.
-          </Text>
-        )}
+        {content}
       </ScrollView>
     </ThemedView>
   );
@@ -66,4 +106,13 @@ export default function ContentDetail() {
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: '#fff' },
   scroll: { flex: 1, backgroundColor: '#fff' },
+  video: {
+    width: SCREEN_WIDTH,
+    height: VIDEO_HEIGHT,
+    marginBottom: 18,
+    alignSelf: 'center',
+    backgroundColor: '#000',
+    borderRadius: 12,
+    overflow: 'hidden',
+  },
 });
