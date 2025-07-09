@@ -3,6 +3,7 @@
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
 import { Stack, useLocalSearchParams, useRouter } from 'expo-router';
+import React from 'react';
 import { Button, ScrollView, StyleSheet, View } from 'react-native';
 
 type AgeGroup = 'ninos' | 'adolescentes' | 'adultosMayores';
@@ -18,12 +19,7 @@ const gameData: Record<AgeGroup, GameItem[]> = {
     {
       name: 'Rompecabezas de animales',
       description: 'Un juego divertido para armar figuras.',
-      route: '../minigames/ninos/rompecabezas.tsx',
-    },
-    {
-      name: 'Adivina el color',
-      description: 'Pon a prueba tus conocimientos de colores.',
-      route: '/games/ninos/adivina-color',
+      route: '/minigames/ninos/rompecabezas',
     },
   ],
   adolescentes: [

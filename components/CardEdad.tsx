@@ -1,6 +1,7 @@
 // components/ui/CardEdad.tsx
 
 import { useRouter } from 'expo-router';
+import React from 'react';
 import { Image, Pressable, StyleSheet, Text } from 'react-native';
 
 type Props = {

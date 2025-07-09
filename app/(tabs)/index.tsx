@@ -5,6 +5,7 @@ import { HelloWave } from '@/components/HelloWave';
 import ParallaxScrollView from '@/components/ParallaxScrollView';
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
+import React from 'react';
 
 export default function HomeScreen() {
   return (
@@ -23,7 +24,7 @@ export default function HomeScreen() {
       </ThemedView>
       <ThemedView style={styles.stepContainer}>
         <ThemedText type="subtitle">
-          Nombre de la aplicación - ¡Aprende y juega de forma segura!
+          ¡Aprende y juega de forma segura!
         </ThemedText>
         <ThemedText>
           Aprende sobre ciberseguridad de forma divertida y segura con esta app,
