@@ -26,24 +26,14 @@ const gameData: Record<AgeGroup, GameItem[]> = {
     {
       name: 'Trivia de ciencia',
       description: 'Preguntas y respuestas para mentes curiosas.',
-      route: '/games/adolescentes/trivia-ciencia',
-    },
-    {
-      name: 'Estrategia táctica',
-      description: 'Desafía a tus amigos en este juego táctico.',
-      route: '/games/adolescentes/estrategia-tactica',
+      route: '/minigames/adolescentes/quiz-phishing',
     },
   ],
   adultosMayores: [
     {
       name: 'Memoria de paisajes',
       description: 'Ejercita tu mente con imágenes hermosas.',
-      route: '/games/adultosMayores/memoria-paisajes',
-    },
-    {
-      name: 'Sudoku Zen',
-      description: 'Un clásico para relajarse y pensar.',
-      route: '/games/adultosMayores/sudoku-zen',
+      route: '/minigames/adultosMayores/detecta-wifi',
     },
   ],
 };

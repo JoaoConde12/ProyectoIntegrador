@@ -163,8 +163,8 @@ export default function TriviaScreen() {
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, padding: 20, justifyContent: 'center' },
-  question: { fontSize: 20, fontWeight: 'bold', marginBottom: 24 },
+  container: { flex: 1, padding: 20, justifyContent: 'center', },
+  question: { fontSize: 20, fontWeight: 'bold', marginBottom: 24, color: '#e1e1e1' },
   option: {
     backgroundColor: '#f2f2f2',
     padding: 16,
