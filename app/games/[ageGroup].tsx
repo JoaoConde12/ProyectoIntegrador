@@ -17,22 +17,22 @@ interface GameItem {
 const gameData: Record<AgeGroup, GameItem[]> = {
   ninos: [
     {
-      name: 'Rompecabezas de animales',
-      description: 'Un juego divertido para armar figuras.',
+      name: 'Trivia de ciberseguridad',
+      description: '10 preguntas que pondrán a prueba tu conocimiento de ciberseguridad',
       route: '/minigames/ninos/rompecabezas',
     },
   ],
   adolescentes: [
     {
-      name: 'Trivia de ciencia',
-      description: 'Preguntas y respuestas para mentes curiosas.',
+      name: 'Quiz de phishing',
+      description: 'Quiz donde se planterán situaciones y tienes que determinar si es phishing o no',
       route: '/minigames/adolescentes/quiz-phishing',
     },
   ],
   adultosMayores: [
     {
-      name: 'Memoria de paisajes',
-      description: 'Ejercita tu mente con imágenes hermosas.',
+      name: 'Wifi seguro',
+      description: 'Tienes que escoger cuál es la red wifi segura para conectarte',
       route: '/minigames/adultosMayores/detecta-wifi',
     },
   ],
