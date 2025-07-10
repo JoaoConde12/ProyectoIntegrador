@@ -1,18 +1,24 @@
 import { ThemedView } from '@/components/ThemedView';
 import { Stack, useLocalSearchParams } from 'expo-router';
 import React from 'react';
-import { Dimensions, Image, ScrollView, StyleSheet, Text } from 'react-native';
+import { Dimensions, Image, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { WebView } from 'react-native-webview';
 
 const { width: SCREEN_WIDTH } = Dimensions.get('window');
 const VIDEO_HEIGHT = SCREEN_WIDTH * (9 / 16); // Estándar 16:9 para videos de YouTube
 
+const infografiasNinos = [
+  { src: require('@/assets/images/infografia-ninos/ninos1.png'), ratio: 1.41 },
+  { src: require('@/assets/images/infografia-ninos/ninos2.png'), ratio: 1.41 },
+  { src: require('@/assets/images/infografia-ninos/ninos3.png'), ratio: 1.41 },
+  { src: require('@/assets/images/infografia-ninos/ninos4.png'), ratio: 1.41 },
+  { src: require('@/assets/images/infografia-ninos/ninos5.png'), ratio: 1.41 },
+];
+
 // Links para grupo niños
 const videosNinos = [
-  'https://www.youtube.com/embed/rHDTJQKW2y8',
   'https://www.youtube.com/embed/I8AhGbzzego',
   'https://www.youtube.com/embed/zbHCWGo4DZ8',
-  'https://www.youtube.com/embed/i_92-NovRT0',
 ];
 
 // Imágenes para adolescentes
@@ -26,6 +32,10 @@ const infografiasAdultos = [
   { src: require('@/assets/images/adultos/adultos1.png'), ratio: 1.64 },
 ];
 
+const videosAdultos = [
+  'https://www.youtube.com/watch?v=pybNL1_GlDA',
+];
+
 export default function ContentDetail() {
   const { grupo } = useLocalSearchParams<{ grupo: string }>();
 
@@ -34,9 +44,31 @@ export default function ContentDetail() {
   if (grupo === 'ninos') {
     content = (
       <>
+        {/* Mostrar primero las infografías */}
+        {infografiasNinos.map((img, idx) => (
+          <Image
+            key={`infografia-${idx}`}
+            source={img.src}
+            style={{
+              width: SCREEN_WIDTH,
+              height: SCREEN_WIDTH * img.ratio,
+              alignSelf: "center",
+              backgroundColor: "#fff",
+            }}
+            resizeMode="contain"
+          />
+        ))}
+
+        <View style={styles.container}>
+          <Text>
+            {'\n'}
+          </Text>
+        </View>
+
+        {/* Luego mostrar los videos */}
         {videosNinos.map((url, idx) => (
           <WebView
-            key={idx}
+            key={`video-${idx}`}
             source={{ uri: url }}
             style={styles.video}
             javaScriptEnabled
@@ -77,6 +109,23 @@ export default function ContentDetail() {
               backgroundColor: '#fff',
             }}
             resizeMode="contain"
+          />
+        ))}
+
+        <View style={styles.container}>
+          <Text>
+            {'\n'}
+          </Text>
+        </View>
+
+        {/* Luego mostrar los videos */}
+        {videosAdultos.map((url, idx) => (
+          <WebView
+            key={`video-${idx}`}
+            source={{ uri: url }}
+            style={styles.video}
+            javaScriptEnabled
+            allowsFullscreenVideo
           />
         ))}
       </>
