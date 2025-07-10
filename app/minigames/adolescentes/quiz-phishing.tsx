@@ -1,10 +1,8 @@
-// app/minigames/adolescentes/quiz-phishing.tsx
-
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
 import { Stack, useRouter } from 'expo-router';
 import React, { useState } from 'react';
-import { Alert, StyleSheet, TouchableOpacity, View } from 'react-native';
+import { Button, StyleSheet, TouchableOpacity, View } from 'react-native';
 
 const QUESTIONS = [
   {
@@ -19,27 +17,73 @@ const QUESTIONS = [
     text: 'Un correo de tu profesor con tu nota final desde su email oficial. ¿Es phishing?',
     answer: false,
   },
+  {
+    text: 'Una web que simula ser de tu red social te pide que ingreses tus credenciales. ¿Es phishing?',
+    answer: true,
+  },
+  {
+    text: 'Un email que contiene solo emojis y sin mensaje. ¿Es phishing?',
+    answer: false,
+  },
+  {
+    text: 'Una oferta de trabajo sospechosamente generosa con enlace desconocido. ¿Es phishing?',
+    answer: true,
+  },
+  {
+    text: 'Recibes una factura inesperada en PDF de una empresa que no conoces. ¿Es phishing?',
+    answer: true,
+  },
 ];
 
 export default function QuizPhishing() {
   const router = useRouter();
   const [idx, setIdx] = useState(0);
   const [score, setScore] = useState(0);
+  const [finished, setFinished] = useState(false);
+
   const q = QUESTIONS[idx];
 
   const handleAnswer = (choice: boolean) => {
-    if (choice === q.answer) setScore(score + 1);
-    const next = idx + 1;
-    if (next < QUESTIONS.length) {
-      setIdx(next);
+    const isCorrect = choice === q.answer;
+    const newScore = score + (isCorrect ? 1 : 0);
+
+    if (idx + 1 < QUESTIONS.length) {
+      setIdx(idx + 1);
+      setScore(newScore);
     } else {
-      Alert.alert(
-        'Fin del quiz',
-        `Has acertado ${score + (choice === q.answer ? 1 : 0)} de ${QUESTIONS.length}`,
-        [{ text: 'Volver', onPress: () => router.back() }]
-      );
+      setScore(newScore);
+      setFinished(true);
     }
   };
+
+  const getFinalMessage = () => {
+    if (score <= 3) {
+      return 'Hay que estudiar más acerca del phishing en la sección de contenido.';
+    } else if (score <= 5) {
+      return 'Tienes una base sobre qué es el phishing.';
+    } else {
+      return '¡Excelente! Sabes qué es el phishing y puedes detectarlo.';
+    }
+  };
+
+  if (finished) {
+    return (
+      <>
+        <Stack.Screen options={{ title: 'Resultado del Quiz' }} />
+        <ThemedView style={styles.container}>
+          <ThemedText type="title">¡Has finalizado el quiz!</ThemedText>
+          <ThemedText style={styles.question}>
+            Tu puntaje: {score} de {QUESTIONS.length}
+          </ThemedText>
+          <ThemedText style={styles.result}>{getFinalMessage()}</ThemedText>
+
+          <View style={{ marginTop: 30 }}>
+            <Button title="Volver" onPress={() => router.back()} />
+          </View>
+        </ThemedView>
+      </>
+    );
+  }
 
   return (
     <>
@@ -61,8 +105,16 @@ export default function QuizPhishing() {
 }
 
 const styles = StyleSheet.create({
-  container: { flex:1, padding:20, justifyContent:'center' },
-  question:{ marginVertical:20, fontSize:16, textAlign:'center' },
-  buttons: { flexDirection:'row', justifyContent:'space-around' },
-  button:   { padding:12, margin:8, backgroundColor:'#212121', borderRadius:6, minWidth:100, alignItems:'center' },
+  container: { flex: 1, padding: 20, justifyContent: 'center' },
+  question: { marginVertical: 20, fontSize: 16, textAlign: 'center' },
+  result:   { fontSize: 16, color: '#e6e6e6', textAlign: 'center', marginTop: 10 },
+  buttons:  { flexDirection: 'row', justifyContent: 'space-around' },
+  button: {
+    padding: 12,
+    margin: 8,
+    backgroundColor: '#212121',
+    borderRadius: 6,
+    minWidth: 100,
+    alignItems: 'center',
+  },
 });
